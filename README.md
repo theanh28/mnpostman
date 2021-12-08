@@ -7,17 +7,17 @@ A small "curl" project that aims to provide a template of C code and Makefile to
 ## Docker
 Clone docker image:
 
-  docker pull conanastro2002/mnpostman
+    docker pull conanastro2002/mnpostman
 
-  docker run -d conanastro2002/mnpostman 
+    docker run -d conanastro2002/mnpostman 
 
 Now there should be a running container. If not, try:
 
-  docker run -d conanastro2002/mnpostman tail -f /dev/null
+    docker run -d conanastro2002/mnpostman tail -f /dev/null
 
 After that, just get into a bash shell of the docker container
 
-  docker exec -it <the container_id> bash
+    docker exec -it <the container_id> bash
 
 Then you can cd into /mnpostman and use it like below
 
@@ -25,6 +25,6 @@ Then you can cd into /mnpostman and use it like below
 After cloning the repository, you will have to install the GNU make program (https://www.gnu.org/software/make/) and GCC to compile the code.
 Then you can work with executable "mnpostman" by commands such as:
 
-  ./mnpostman GET www.google.com
+    ./mnpostman GET www.google.com
 
 Have fun exploring the ancient C code.
