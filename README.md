@@ -11,4 +11,4 @@ Then you can work with executable "mnpostman" by commands such as:
 Have fun exploring the ancient C code.
 
 # Future
-Docker for everyone. No more downloading.
+Docker for everyone. No more downloading packages such as GNU Make.
