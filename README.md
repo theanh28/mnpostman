@@ -8,7 +8,6 @@ A small "curl" project that aims to provide a template of C code and Makefile to
 Clone docker image:
 
     docker pull conanastro2002/mnpostman
-
     docker run -d conanastro2002/mnpostman 
 
 Now there should be a running container. If not, try:
