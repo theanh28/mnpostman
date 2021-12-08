@@ -32,3 +32,6 @@ Then you can work with executable "mnpostman" by commands such as:
     ./mnpostman GET www.google.com
 
 Have fun exploring the ancient C code.
+
+# Future
+Support HTTPS
