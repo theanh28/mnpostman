@@ -2,7 +2,7 @@
 
 A small "curl" project that aims to provide a template of C code and Makefile to make requests to servers.
 
-# How-to-use
+# Download
 
 ## Docker
 Clone docker image:
@@ -33,5 +33,19 @@ Then you can work with executable "mnpostman" by commands such as:
 
 Have fun exploring the ancient C code.
 
-# Future
-Support HTTPS
+# Manual
+A request should have the form of 
+    <GET/POST/PUT/DELETE> <url>
+for example:
+    GET https://www.google.com
+    
+Options:
+    -p      option port number, default to 80 when using HTTP and 443 when using HTTPS
+    -c      show certificate, show SSL certificate of server
+Complete command has the form
+    ./mnpostman [-p <port number>, -c] <GET/POST/PUT/DELETE> <url>
+for example:
+    ./mnpostman -p 443 -c GET https://www.google.com
+
+# HTTP vs HTTPS
+If the url does not start with https://, the program use the primitive non-SSL/TLS method to send request. Otherwise, it use version-flexible SSL/TLS method.
