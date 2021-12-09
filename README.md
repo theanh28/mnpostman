@@ -44,6 +44,7 @@ Options:
     -c      show certificate, show SSL certificate of server
 Complete command has the form
     ./mnpostman [-p <port number>, -c] <GET/POST/PUT/DELETE> <URL>
+ 
 for example:
     ./mnpostman -p 443 -c GET https://www.google.com
 
