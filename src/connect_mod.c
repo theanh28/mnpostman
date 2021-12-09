@@ -3,6 +3,8 @@
 #include <sys/socket.h>
 #include <strings.h>
 #include <netdb.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
 
 #include "connect_mod.h"
 
@@ -33,4 +35,38 @@ int connect_to_host(char * hostname, int port) {
     return -1; // error, as above
   }
   return socket_fd;
+}
+
+// copied from https://aticleworld.com/ssl-server-client-using-openssl-in-c/
+SSL_CTX * init_CTX() {
+  SSL_METHOD * method;
+  SSL_CTX * ctx;
+  OpenSSL_add_all_algorithms(); // Load cryptos, et.al.
+  SSL_load_error_strings(); // Bring in and register error messages
+  method = TLS_client_method(); // create new client-method instance
+  if ((ctx = SSL_CTX_new(method)) == NULL) {; // create new context
+    return NULL;
+  }
+  return ctx;
+}
+
+void SSL_show_certs(SSL * ssl) {
+  X509 * cert;
+  char * line;
+
+  printf("=========\n");
+  cert = SSL_get_peer_certificate(ssl);
+  if (cert != NULL) {
+    printf("Server certificate:\n");
+    line = X509_NAME_oneline(X509_get_subject_name(cert), 0, 0);
+    printf("Subject: %s\n", line);
+    free(line);
+    line = X509_NAME_oneline(X509_get_issuer_name(cert), 0, 0);
+    printf("Issuer: %s\n", line);
+    free(line);
+    X509_free(cert);
+  } else {
+    printf("Info: No client certificates configured.\n");
+  }
+  printf("=========\n");
 }

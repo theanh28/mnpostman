@@ -3,12 +3,13 @@
 
 #include "request_mod.h"
 
-int create_request(int argc, char ** argv, int offset, char * hostname, char * req) {
+int create_request(int argc, char ** argv, int offset, char * hostname, char * req, int * tls_mode) {
   strcpy(req, argv[offset]);
   char * url = argv[offset + 1];
 
   if (strcasestr(url, "https://") != NULL) {
     url += strlen("https://");
+    *tls_mode = 1;
   }
   if (strcasestr(url, "http://") != NULL) {
     url += strlen("http://");

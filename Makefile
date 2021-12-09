@@ -1,9 +1,15 @@
 # Check out https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/ for C Makefile
 CC = gcc
 IDIR = include
-CFLAGS = -I $(IDIR)
 ODIR = src/obj
 SDIR = src
+LDIR = /usr/lib # remember, dir name with or without / before them are different
+# so for safety, you can use ./include instead of include at IDIR above
+
+_LIBS = ssl crypto
+LIBS = $(patsubst %,-l %,$(_LIBS))
+
+CFLAGS = -I $(IDIR) -L $(LDIR) $(LIBS)
 
 _DEPS = connect_mod.h request_mod.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
