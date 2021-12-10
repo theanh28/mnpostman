@@ -37,7 +37,7 @@ Have fun exploring the ancient C code.
 # Manual
 A request should have the form of 
 
-    <GET/POST/PUT/DELETE> <your URL>
+    <GET/POST/PUT/DELETE> <URL>
 
 for example:
 
@@ -48,8 +48,8 @@ Options:
     -c      show certificate, show SSL certificate of server
 Complete command has the form
 
-    ./mnpostman [-p <port number>, -c] <GET/POST/PUT/DELETE> <your URL>
- 
+    ./mnpostman [-p <port number>, -c] <GET/POST/PUT/DELETE> <URL>
+    
 for example:
 
     ./mnpostman -p 443 -c GET https://www.google.com
