@@ -27,6 +27,7 @@ After cloning the repository, you will have to install the GNU make program (htt
 Compile:
 
     make
+
 Then you can work with executable "mnpostman" by commands such as:
 
     ./mnpostman GET www.google.com
@@ -35,8 +36,11 @@ Have fun exploring the ancient C code.
 
 # Manual
 A request should have the form of 
+
     <GET/POST/PUT/DELETE> <your URL>
+
 for example:
+
     GET https://www.google.com
     
 Options:
