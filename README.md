@@ -35,7 +35,7 @@ Have fun exploring the ancient C code.
 
 # Manual
 A request should have the form of 
-    <GET/POST/PUT/DELETE> <url>
+    <GET/POST/PUT/DELETE> <your URL>
 for example:
     GET https://www.google.com
     
@@ -43,10 +43,13 @@ Options:
     -p      option port number, default to 80 when using HTTP and 443 when using HTTPS
     -c      show certificate, show SSL certificate of server
 Complete command has the form
-    ./mnpostman [-p <port number>, -c] <GET/POST/PUT/DELETE> <URL>
+    ./mnpostman [-p <port number>, -c] <GET/POST/PUT/DELETE> <your URL>
  
 for example:
     ./mnpostman -p 443 -c GET https://www.google.com
 
 # HTTP vs HTTPS
 If the url does not start with https://, the program use the primitive non-SSL/TLS method to send request. Otherwise, it use version-flexible SSL/TLS method.
+    
+# Bug to fix
+Currently, there will be a "stack smashing detected" when you use https url. A suspected reason is the packet received through SSL/TLS crypto protocol is too large for the max size of packet received throguh TCP transport protocol, leading to the error which is prominent for "buffer overflow" related problem.
