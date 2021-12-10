@@ -18,9 +18,9 @@ extern int optind;
 // important global values
 int port = -969, show_cert = 0;
 int clientfd = -1;
-char hostname[MAXLEN];
-char request[MAXLEN];
-char response[MAXLEN];
+char hostname[MAXLEN + 5];
+char request[MAXLEN + 5];
+char response[MAXLEN + 5];
 int * tls_mode = 0;
 SSL_CTX * ctx = 0;
 SSL * ssl = 0;
@@ -43,23 +43,47 @@ int prepare(int argc, char ** argv) {
   return 0;
 }
 
-void output_http() {
+int tcp_stop(char * res, int n) {
+  if (res[n - 5] == 48 && res[n - 4] == 13 && res[n - 3] == 10 && res[n - 2] == 13 && res[n - 1] == 10) return 1;
+  return 0;
+}
+
+int output_http() {
   send(clientfd, request, strlen(request), 0); // equivalent to write(fd, req, size)
   printf("Sent a request of:\n%s\n************\n", request);
 
-  int n_received = recv(clientfd, response, MAXLEN, 0); // equivalent to read(fd, res, size)
-  response[n_received] = '\0'; // response may not contain string terminating character
+  int n_received;
+  printf("Received a response of:\n");
+  do {
+    n_received = recv(clientfd, response, MAXLEN, 0); // equivalent to read(fd, res, size)
+    if (n_received < 0) {
+      return -1;
+    }
+    response[n_received] = '\0'; // response may not contain string terminating character
+    printf("%s", response);
+    fflush(stdout);
+  } while (!tcp_stop(response, n_received));
 
-  printf("Recevied a response:\n%s\n############\n", response);
+  printf("\n############\n", response);
+  return 0;
 }
-void output_ssl_tls() { // mirror output_http()
-  SSL_write(ssl, request, strlen(request)); 
+int output_ssl_tls() { // mirror output_http()
+  SSL_write(ssl, request, strlen(request));
   printf("Sent a request of:\n%s\n************\n", request);
 
-  int n_received = SSL_read(ssl, response, MAXLEN);
-  response[n_received] = 0; // terminating character '\0' = 0 in ASCII
+  int n_received;
+  printf("Received a response of:\n");
+  do {
+    if (SSL_read_ex(ssl, response, MAXLEN, &n_received) <= 0) {
+      return -1;
+    }
+    response[n_received] = 0; // terminating character '\0' = 0 in ASCII
+    printf("%s", response);
+    fflush(stdout);
+  } while (!tcp_stop(response, n_received));
 
-  printf("Recevied a response:\n%s\n############\n", response);
+  printf("\n############\n", response);
+  return 0;
 }
 
 int main(int argc, char ** argv) {
@@ -94,10 +118,14 @@ int main(int argc, char ** argv) {
     }
   printf("Connect successfully\n");
 
+  int output_err = 0;
   if (*tls_mode == 0) {
-    output_http();
+    output_err = output_http();
   } else if (*tls_mode == 1) {
-    output_ssl_tls();
+    output_err = output_ssl_tls();
+  }
+  if (output_err) {
+    printf("\nUnexpected error happened during receiving response. Terminating...\n");
   }
 
   // closing down, de-allocating memory
