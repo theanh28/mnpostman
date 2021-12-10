@@ -43,9 +43,11 @@ Options:
     -p      option port number, default to 80 when using HTTP and 443 when using HTTPS
     -c      show certificate, show SSL certificate of server
 Complete command has the form
+
     ./mnpostman [-p <port number>, -c] <GET/POST/PUT/DELETE> <your URL>
  
 for example:
+
     ./mnpostman -p 443 -c GET https://www.google.com
 
 # HTTP vs HTTPS
