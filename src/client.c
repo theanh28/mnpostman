@@ -44,7 +44,7 @@ int prepare(int argc, char ** argv) {
 }
 
 int tcp_stop(char * res, int n) {
-  if (res[n - 5] == 48 && res[n - 4] == 13 && res[n - 3] == 10 && res[n - 2] == 13 && res[n - 1] == 10) return 1;
+  if (strcmp(res + n - 5, "0\r\n\r\n") == 0) return 1; // checking string signaling end of response
   return 0;
 }
 
